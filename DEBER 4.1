@@ -1,0 +1,87 @@
+/* 
+ * CAPITULO IV: PERIFERICOS ESPECIALES
+ * DEBER 4.1:CAD Y PWM   
+ * ORDEN: Realizar un sistema en el cual se conecten 2 motores (parecido al diagrama que se utilizo en clase). 
+ *Los datos de CAD, V y PWM se deben visulizar en una LCD para cada motor.  
+ *A traves de la activación de un botón y un switch (el funcionamiento de un motor dependerá de la activación de un botón
+ *y el otro dependerá de la activación de un switch, a su elección) entrará en funcionamiento del motor que corresponda y 
+ *se visualizará en la LCD de ese motor los datos de CAD, Voltaje y PWM.
+ *OBJETIVO: Accionar dos motores DC para visualizar las lecturas del conversor analogo digital concernientes a CAD, voltaje y PWM,  en un LCD.
+ * Nombre: Almeida Katherine
+ * Fecha: 24/05/2021   
+ * 
+*/
+#include <LiquidCrystal.h>             //Librería para LCD
+
+// Primera LCD
+LiquidCrystal lcd(13,12,5,4,3,2);      //Pines para LCD UNO
+
+const int boton=A4;                    //Variable botón
+int conversor;                         //Variable para adquirir datos del conversor entre 0-1023.
+float voltaje;                         //Variable de conversion de conversor a voltaje.
+int  dutty;                            // Ciclo uno
+
+//Segunda LCD
+
+LiquidCrystal lcd1(A2,A3,9,8,7,6);      //Pines para LCD DOS
+const int sw=A5;                        //Creacion del boton para acativar la segunda pantalla con información.
+int conversor1;                         //Variable para adquirir datos del conversor entre 0-1023.
+float voltaje1;                         //Variable de conversion de conversor a voltaje.
+int  dutty1;                            //Ciclo dos
+ 
+void setup() {
+  lcd.begin(16,2);                      //Inicializa la LCD uno
+  lcd1.begin(16,2);                     //Inicializa la LCD dos
+  pinMode(boton,INPUT);                 //Boton como entrada LCD uno
+  pinMode(sw,INPUT);                    //Switch como entrada LCD dos
+
+}
+//Control del Boton en bajo
+void loop() {
+  if(digitalRead(boton)==LOW)           //Activación de botón en bajo
+  {
+      conversor=analogRead(A1);         //Pin analogo A1 o canal A1
+      voltaje=(conversor*5.0)/1023.0;   //Conversión del voltaje              %.0 para que coja desde cero y no .1 en decimal
+      dutty=conversor/4;                //Cambio de escala para dutty cicle   %1023/255=4
+      analogWrite(11,dutty);            //Enviar de valor del ciclo al pin 11.
+      lcd.setCursor(0,0);               //Ubicación para el mensaje
+      lcd.print("CAD: " );                 
+      lcd.setCursor(5,0);               //Ubicación para el mensaje
+      lcd.print(conversor);                 
+      lcd.setCursor(0,1);               //Ubicación para el mensaje
+      lcd.print("V: ");                 //Imprime valor de voltaje
+      lcd.setCursor(3,1);               //Ubicación para el mensaje
+      lcd.print(voltaje);                  
+      lcd.setCursor(9,1);               //Ubicación para el mensaje
+      lcd.print("PWM: ");               //Modulación de ancho de pulso
+      lcd.setCursor(13,1);              //Ubicación para el mensaje
+      lcd.print((dutty*100)/255);       //Imprime el dutty-ciclo                   %hacer una regla de tres
+      delay(300);
+      lcd1.clear();                     //Borrar datos LC
+  }else{
+    lcd1.clear();
+  }
+
+//Segundo control mediante Switch-Activación en alto
+  if(digitalRead(sw)==HIGH)
+  {
+      conversor1=analogRead(A0);         //Pin analogo A0 o canal A0
+      voltaje1=(conversor1*5.0)/1023.0;  //Conversión del voltaje              %.0 para que coja desde cero y no .1 en decimal
+      dutty1=conversor1/4;               //Cambio de escala para dutty cicle   %1023/255=4
+      analogWrite(10,dutty1);            //Valor al pin 10
+      lcd1.setCursor(0,0);               //Ubicación para el mensaje
+      lcd1.print("CAD: " );              //CAD
+      lcd1.setCursor(5,0);               //Ubicación para el mensaje
+      lcd1.print(conversor1);            
+      lcd1.setCursor(0,1);               //Ubicación del mensaje
+      lcd1.print("V: ");                 //Para el voltaje
+      lcd1.setCursor(3,1);               //Ubicación para el mensaje
+      lcd1.print(voltaje1);              
+      lcd1.setCursor(9,1);               //Ubicación para el mensaje
+      lcd1.print("PWM: ");               //Modulacion de ancho de pulso
+      lcd1.setCursor(13,1);              //Ubicación para el mensaje
+      lcd1.print((dutty1*100)/255);      //Imprime el dutty %hacer una regla de tres
+      delay(300);                        //Tiempo de espera para siguiente lectura
+      lcd1.clear();                      //Borrar datos LC
+  }
+}
