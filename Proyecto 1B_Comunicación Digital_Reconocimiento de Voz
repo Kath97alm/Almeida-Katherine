@@ -1,0 +1,389 @@
+function varargout = Interfaz(varargin)
+% INTERFAZ MATLAB code for Interfaz.fig
+%      INTERFAZ, by itself, creates a new INTERFAZ or raises the existing
+%      singleton*.
+%
+%      H = INTERFAZ returns the handle to a new INTERFAZ or the handle to
+%      the existing singleton*.
+%
+%      INTERFAZ('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in INTERFAZ.M with the given input arguments.
+%
+%      INTERFAZ('Property','Value',...) creates a new INTERFAZ or raises the
+%      existing singleton*.  Starting from the left, property value pairs are
+%      applied to the GUI before Interfaz_OpeningFcn gets called.  An
+%      unrecognized property name or invalid value makes property application
+%      stop.  All inputs are passed to Interfaz_OpeningFcn via varargin.
+%
+%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
+%      instance to run (singleton)".
+%
+% See also: GUIDE, GUIDATA, GUIHANDLES
+
+% Edit the above text to modify the response to help Interfaz
+
+% Last Modified by GUIDE v2.5 01-Dec-2021 21:45:51
+
+% Begin initialization code - DO NOT EDIT
+gui_Singleton = 1;
+gui_State = struct('gui_Name',       mfilename, ...
+                   'gui_Singleton',  gui_Singleton, ...
+                   'gui_OpeningFcn', @Interfaz_OpeningFcn, ...
+                   'gui_OutputFcn',  @Interfaz_OutputFcn, ...
+                   'gui_LayoutFcn',  [] , ...
+                   'gui_Callback',   []);
+if nargin && ischar(varargin{1})
+    gui_State.gui_Callback = str2func(varargin{1});
+end
+
+if nargout
+    [varargout{1:nargout}] = gui_mainfcn(gui_State, varargin{:});
+else
+    gui_mainfcn(gui_State, varargin{:});
+end
+% End initialization code - DO NOT EDIT
+
+
+% --- Executes just before Interfaz is made visible.
+function Interfaz_OpeningFcn(hObject, eventdata, handles, varargin)
+% This function has no output args, see OutputFcn.
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+% varargin   command line arguments to Interfaz (see VARARGIN)
+
+% Choose default command line output for Interfaz
+handles.output = hObject;
+
+% 
+% 
+% axes(handles.axes6);
+% [x,map]=imread('sello.jpg');
+% image(x);
+% colormap(map);
+% axis on
+% 
+% handles.output = hObject;
+
+% Update handles structure
+guidata(hObject, handles);
+
+% UIWAIT makes Interfaz wait for user response (see UIRESUME)
+% uiwait(handles.figure1);
+
+
+% al abrir se cargan los datos (no se pueden comparar)
+% x = audioread('grabacion1.wav');
+% y = audioread('grabacion2.wav');
+% z = audioread('grabacion3.wav');
+% u = audioread('grabacionPrueba.wav')
+% plot(handles.axes1,x)
+% plot(handles.axes2,y)
+% plot(handles.axes3,z)
+% plot(handles.axes4,u)
+
+% --- Outputs from this function are returned to the command line.
+function varargout = Interfaz_OutputFcn(hObject, eventdata, handles) 
+% varargout  cell array for returning output args (see VARARGOUT);
+% hObject    handle to figure
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Get default command line output from handles structure
+varargout{1} = handles.output;
+
+
+
+
+% --- Executes on button press in RepDS1.
+function RepDS1_Callback(hObject, eventdata, handles)
+% hObject    handle to RepDS1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+Fs = 10000;
+
+y = audioread('grabacion1.wav');
+
+sound(y,Fs);
+
+% --- Executes on button press in GrabDS1.
+function GrabDS1_Callback(hObject, eventdata, handles)
+% hObject    handle to GrabDS1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+t = 5;
+Fs = 10000;
+
+v = audiorecorder(Fs, 8, 1);
+recordblocking(v, t)
+y = v.getaudiodata()
+audiowrite ('grabacion1.wav',y,Fs); %guarda el sonido en formato wav%
+
+
+%%graficar grabacion
+
+s = normalizar(y);
+voz = abs(fft (s)); % se obtiene la transformada de fourier de la primera grabacion %
+voz = voz.*conj (voz); % se obtiene el conjugado% 
+
+plot(handles.axes1,y)
+
+global vozDS1 
+vozDS1 = voz;
+
+
+
+% --- Executes on button press in RepDS2.
+function RepDS2_Callback(hObject, eventdata, handles)
+% hObject    handle to RepDS2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+Fs = 10000;
+
+y = audioread('grabacion2.wav');
+
+sound(y,Fs);
+
+% --- Executes on button press in GrabDS2.
+function GrabDS2_Callback(hObject, eventdata, handles)
+% hObject    handle to GrabDS2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+t = 5;
+Fs = 10000;
+
+v = audiorecorder(Fs, 8, 1);
+recordblocking(v, t)
+y = v.getaudiodata()
+audiowrite ('grabacion2.wav',y,Fs); %guarda el sonido en formato wav%
+
+%%graficar grabacion
+
+s = normalizar(y);
+voz = abs(fft (s)); % se obtiene la transformada de fourier de la primera grabacion %
+voz = voz.*conj (voz); % se obtiene el conjugado% 
+
+plot(handles.axes2,y)
+global vozDS2 
+vozDS2 = voz;
+
+
+
+% --- Executes on button press in RepDS3.
+function RepDS3_Callback(hObject, eventdata, handles)
+% hObject    handle to RepDS3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+Fs = 10000;
+
+y = audioread('grabacion3.wav');
+
+sound(y,Fs);
+
+% --- Executes on button press in GrabDS3.
+function GrabDS3_Callback(hObject, eventdata, handles)
+% hObject    handle to GrabDS3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+t = 5;
+Fs = 10000;
+
+v = audiorecorder(Fs, 8, 1);
+recordblocking(v, t)
+y = v.getaudiodata()
+audiowrite ('grabacion3.wav',y,Fs); %guarda el sonido en formato wav%
+
+
+%%graficar grabacion
+
+s = normalizar(y);
+voz = abs(fft (s)); % se obtiene la transformada de fourier de la primera grabacion %
+voz = voz.*conj (voz); % se obtiene el conjugado% 
+
+plot(handles.axes3,y)
+
+global vozDS3 
+vozDS3 = voz;
+
+
+% --- Executes on button press in RepPrueba.
+function RepPrueba_Callback(hObject, eventdata, handles)
+% hObject    handle to RepPrueba (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+Fs = 10000;
+
+y = audioread('grabacionPrueba.wav');
+
+sound(y,Fs);
+
+% --- Executes on button press in GrabPrueba.
+function GrabPrueba_Callback(hObject, eventdata, handles)
+% hObject    handle to GrabPrueba (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+t = 5;
+Fs = 10000;
+
+v = audiorecorder(Fs, 8, 1);
+recordblocking(v, t)
+y = v.getaudiodata()
+audiowrite ('grabacionPrueba.wav',y,Fs); %guarda el sonido en formato wav%
+
+
+%%graficar grabacion
+
+s = normalizar(y);
+voz = abs(fft (s)); % se obtiene la transformada de fourier de la primera grabacion %
+voz = voz.*conj (voz); % se obtiene el conjugado% 
+
+plot(handles.axes4,y)
+
+global vozPrueba
+vozPrueba = voz;
+
+function voz2_Callback(hObject, eventdata, handles)
+% hObject    handle to voz2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of voz2 as text
+%        str2double(get(hObject,'String')) returns contents of voz2 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function voz2_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to voz2 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function voz3_Callback(hObject, eventdata, handles)
+% hObject    handle to voz3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of voz3 as text
+%        str2double(get(hObject,'String')) returns contents of voz3 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function voz3_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to voz3 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function voz1_Callback(hObject, eventdata, handles)
+% hObject    handle to voz1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of voz1 as text
+%        str2double(get(hObject,'String')) returns contents of voz1 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function voz1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to voz1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+% --- Executes on button press in Analizar.
+function Analizar_Callback(hObject, eventdata, handles)
+% hObject    handle to Analizar (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global vozDS1 vozDS2 vozDS3 vozPrueba
+error(1) = mean(abs(vozPrueba-vozDS1))
+error(2) = mean(abs(vozPrueba-vozDS2))
+error(3) = mean(abs(vozPrueba-vozDS3))
+
+
+min_error = min(error)
+
+if (min_error > 1e+3)
+set(handles.Respuesta,'String','Desconocido')
+else
+    switch min_error
+        case error(1) 
+        set(handles.Respuesta,'String',get(handles.voz1,'String'));
+        case error(2)
+        set(handles.Respuesta,'String',get(handles.voz2,'String'));
+        case error(3)
+        set(handles.Respuesta,'String',get(handles.voz3,'String'));
+    end
+
+end
+
+
+
+function edit5_Callback(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit5 as text
+%        str2double(get(hObject,'String')) returns contents of edit5 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit5_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit5 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function edit6_Callback(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+% Hints: get(hObject,'String') returns contents of edit6 as text
+%        str2double(get(hObject,'String')) returns contents of edit6 as a double
+
+
+% --- Executes during object creation, after setting all properties.
+function edit6_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to edit6 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
