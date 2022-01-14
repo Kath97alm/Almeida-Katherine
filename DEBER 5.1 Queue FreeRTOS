@@ -1,0 +1,48 @@
+/*
+ * CAPÍTULO 5: FUNCIONES ESPECÍFICAS
+ * DEBER 5.1: Envíe cualquier tipo de dato entre la comunicación de 2 tareas, en RTOS.
+ * OBJETIVO: Ejecutar tareas directamente en el Kernel del uC.
+ * NOMBRE: Katherine Almeida
+ */
+#include <Arduino_FreeRTOS.h>     //Librería para RTOS.
+#include "queue.h"                //Librería Queue
+//Creación de objetos
+QueueHandle_t yearQueue;          
+int cont=1;                      //Contador para el ciclo while
+int a=2002;                      //Años
+void setup() {
+  Serial.begin(9600);                                               //Comunicación serial velocidad 9600
+  Serial.println("DEBER 5.1 ");
+  Serial.println("Escuela-K.A ");
+  yearQueue=xQueueCreate(5, sizeof(int32_t));                       //Creación  paquete
+  xTaskCreate(vSenderTask,"Sender Task", 100, NULL, 1, NULL);       //Tarea para enviar datos
+  xTaskCreate(vReceiverTask,"Receiver Task", 100, NULL, 1, NULL);   //Tarea para recibir datos
+}
+void vSenderTask(void *pvParameters){                               //Método de envio de tarea
+  int32_t grado=0;                                                  //Variable de envio
+  BaseType_t qStatus;                                               
+  while(1){                                                           
+    grado ++;        
+    qStatus=
+      xQueueSendToFront(yearQueue,&grado,0);                        //Envía datos al principio de la pila
+    Serial.print("Grado enviado: ");                                //Mensaje de impresión
+    Serial.println(grado);
+    vTaskDelay(100);                                                //Delay tiempo
+  }
+}
+
+void vReceiverTask(void *pvParameters){                             //Metodo tarea recibida
+  int32_t dato_r;                                                   //Variable de valor recibido
+  BaseType_t qStatus; 
+  while(cont<7){
+    cont++;
+    a ++;
+    xQueueReceive(yearQueue, &dato_r,500); 
+    Serial.print("Dato recibido: "); 
+    Serial.println(dato_r + String(" grado en ") + a);              //Se imprime lo que se desea visualizar mensaje recibido
+    vTaskDelay(100);  
+  }
+}
+void loop(){
+
+}
