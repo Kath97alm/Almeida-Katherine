@@ -1,0 +1,55 @@
+/*
+* SISTEMAS EMBEBIDOS
+* EJERCICIOS ENPROCESSING
+* DEBER 6.1 - CARICATURA
+* NOMBRE:KATHERINE ALMEIDA
+ */
+void setup(){
+size(500,600);
+background(#FFFFFF); 
+//PFont fuente;
+//fuente=loadFont("Broadway.vlw");
+//textFont(fuente);
+smooth(); //dibuja la geometría con bordes suaves
+  strokeWeight(4);
+  
+  fill(0,0,0);
+  ellipse(250,275,250,170);//peinado
+  
+  fill(247,231,206);
+  ellipse(250,300,220,140);//Rostro
+  
+  
+  fill(0,0,0);
+  ellipse(250,330,39,39);//boca
+ 
+
+  fill(#FF525A);
+   stroke(#FF0000);
+  ellipse(190,330,20,20);//cachete izquierdo 
+  ellipse(315,325,20,20);//Cachetederecho
+  
+  
+  fill(0,0,0);
+   stroke(0,0,0);
+  ellipse(150,200,100,100);//Cacho izquierdo
+  ellipse(370,200,100,100);//cacho derecho
+  
+
+  line(175,275,225, 290);//ojo izquierdo
+  line(270,288,325 ,275);//ojo derecho
+  
+  fill(#FF525A);//color de letra rojo
+  textSize(30);
+  text("PUCCA",210,400);
+   
+  
+   stroke(#FF0000);
+   strokeWeight(10);
+   line(140,250,200,200);//vinchas lado izquierdo
+  line(320,200,375,250);//vinchas lado derecho
+
+}
+void draw(){
+  
+}
