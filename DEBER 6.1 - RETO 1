@@ -1,0 +1,30 @@
+/*
+* SISTEMAS EMBEBIDOS
+* EJERCICIOS ENPROCESSING
+* DEBER 6.1 - RETO 1
+* NOMBRE:KATHERINE ALMEIDA
+ */
+void setup(){
+  size(600,600);            //Tamaño del cuadrado principal
+  background(0);            //Color de fondo
+    fill(#ff6800);          //Color de relleno
+    
+  strokeWeight(7);         //Grosor 
+  rect(10,10,580,580);     //Definir rectángulo
+  
+  stroke(#0000ff);
+  line(15,584,585,14);     //Dibujar línea
+  line(15,14,584,585);     //Dibujar  línea
+
+  strokeWeight(0);
+    fill(255);
+  ellipse(300,300,450,450);//Dibujar elipse
+  stroke(#00ff00);         //Color
+  strokeWeight(9);
+    fill(#FF0000);
+  ellipse(300,300,350,350);//Elipse interna
+  
+}
+void draw(){
+
+}
