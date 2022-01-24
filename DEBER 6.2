@@ -1,0 +1,95 @@
+/*
+ CAPITULO 6: DISEÑO DE INTERFACES
+ CODIGO 28_CORREGIDO: Manejo de Funciones generales en processing
+ OBJETIVO: Mostrar texto y funciones de teclado y mouse
+ NOMBRE: KATHERINE ALMEIDA
+ */
+int i=0;
+void setup(){
+size(700,500); // tamaño de la interfaz
+background(0); // 0 -> negro , 255-> blanco
+}
+
+void draw(){
+  //background(0); // 0 -> negro , 255-> blanco
+  textSize(30); // tamañao del texto 
+  text("   ",315,60); // ubicación de mensaje vacíos
+  text("   ",395,60);
+  fill(0);
+  stroke(0);
+  rect(280,40,154,26);
+  
+  fill(0,255,0);
+  text("INTERFAZ",280,35); //texto
+  textSize(20);  
+  text("CX:",280,60); 
+  text(mouseX,315,60); // muestra coordenada de mouse X
+  text("CY:",360,60); 
+  text(mouseY,395,60); // muestra coordenada de mouse Y
+  stroke(255,0,0);
+  line(0,0,mouseX,mouseY); //Genera una línea desde vértice hasta ubicación de mouse
+}
+void mouseClicked(){ // evento si usuario presion click derecho
+  if(mouseButton==LEFT){ // confirma si presiona el botón izquierdo
+    fill(255,255,0);
+    ellipse(mouseX,mouseY,10,10); // muestra esfera
+  }
+}
+void keyPressed(){ // evento de presión de tecla
+ if(key=='A'){ // is presiona A
+    background(0); /// borra interfaz
+  }
+}
+ ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+ 
+ 
+ /*
+* SISTEMAS EMBEBIDOS
+* EJERCICIOS ENPROCESSING
+* DEBER 6.1 - RETO 1
+* NOMBRE:KATHERINE ALMEIDA
+ */
+void setup(){
+size(400,400);//tamaño del rectángulo
+background(#BCBBBA);//fondo del rectángulo
+textSize(20);//tamaño de texto
+fill(0);
+text("Presione el Botón para ",100,50);    //texto primera línea
+text("Encender o Apagar el LED ",90,70);  //texto segunda línea
+smooth();
+fill(255,0,0);                            
+ellipse(200,200,200,200);                  // tamaño del circulo
+fill(250,250,250);                         //color del texto 
+text("¡Apagado! ",160,200);                //mensaje de aviso
+textSize(20);
+fill(0);
+text("Katherine Almeida",125,380);             //nombre
+}
+void draw(){
+noStroke();                                    //desabilita el contorno 
+}
+void mousePressed(){                           //para presionar
+    if(mouseButton == RIGHT){                  //click derecho
+    fill(123, 36, 28);                         //color cafe
+    ellipse(200,200,200,200);                  //circulo
+  }
+  if(mouseButton==LEFT){                       //click izquierdo
+    fill(56,142,60);                           //color verde oscuro
+    ellipse(200,200,200,200);                  //Se establece el circulo
+    }
+  }
+void mouseReleased(){                         //Metodo para alzar el mouse
+
+  if(mouseButton==LEFT){                      //Si se suelta el boton izquierdo
+    fill(#ff0000 );                           //color rojo
+    ellipse(200,200,200,200);                 //Circulo
+    fill(250);                                //Se define el color del texto 
+    text("¡Apagado! ",160,200);               //Se define el mesanjes centrado
+  }
+    if(mouseButton == RIGHT){                 //Si se suelta el botón derecho
+    fill(51, 255, 0);                         //Se define el color verde claro
+    ellipse(200,200,200,200);                 //Se establece el circulo
+    fill(250);                                //color blanco
+    text("¡Encendido! ",155,200);             //Se define el mesanjes centrado
+    }
+}
