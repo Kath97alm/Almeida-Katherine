@@ -1,0 +1,111 @@
+/*
+* SISTEMAS EMBEBIDOS
+* EJERCICIOS ENPROCESSING
+* DEBER 6.3 - RETO 4
+* NOMBRE:KATHERINE ALMEIDA
+ */
+import processing.serial.*;
+Serial port; // Create object from Serial class
+int i=0;
+void setup() {
+size(500, 500);
+background(163, 163, 163);
+textAlign(CENTER);
+textSize(30);
+fill(0);
+text("Presione el Botón para",250,45);
+textSize(30);
+text("Encender o Apagar el LED",250,80);
+textSize(15);
+fill(0);
+text("Katherine Almeida",250,450);
+fill(204, 0, 0);
+stroke(204);
+ellipse(250,250,200,200);
+
+fill(255, 255, 255);
+textSize(30);
+text("¡Apagado!",250,250);
+
+smooth();
+port = new Serial(this,"COM3", 9600);
+}
+void draw() {
+if (port.available() > 0){
+int dato = port.read();
+println(dato);
+}
+}
+void mousePressed(){
+background(163, 163, 163);
+if(mouseButton == RIGHT){
+background(163, 163, 163);
+textAlign(CENTER);
+textSize(30);
+fill(0);
+text("Presione el Botón para",250,45);
+textSize(30);
+text("Encender o Apagar el LED",250,80);
+textSize(15);
+fill(0);
+text("Katherine Almeida",250,450);
+fill(0, 255, 0);
+stroke(0, 255, 0);
+ellipse(250,250,200,200);
+
+fill(255, 255, 255);
+textSize(30);
+text("¡Encendido!",250,250);
+
+port.write('A'); //Envia dato "A"
+} 
+if(mouseButton == LEFT){ //clic del mouse
+background(163, 163, 163);
+textAlign(CENTER);
+textSize(30);
+fill(0);
+text("Presione el Botón para",250,45);
+textSize(30);
+text("Encender o Apagar el LED",250,80);
+textSize(15);
+fill(0);
+text("Katherine Almeida",250,450);
+fill(#CC0000); //color rojo
+stroke(#CC0000);
+ellipse(250,250,200,200);
+
+fill(255, 255, 255); //color blanco
+textSize(30);
+text("¡Apagado!",250,250); //Mensaje
+
+
+port.write('B'); //Envia dato "B"
+}
+}
+//////////////////////////////////////////////////////////// ARDUINO IDE //////////////////////////////////////////////////////////////////
+*
+* SISTEMAS EMBEBIDOS
+* EJERCICIOS ENPROCESSING
+* DEBER 6.3 - RETO 4
+* NOMBRE:KATHERINE ALMEIDA
+ */
+
+int byteRecibido=0;
+const int led = 13;
+
+void setup(){
+Serial.begin(9600);
+pinMode(led, OUTPUT);
+
+digitalWrite(led, LOW);
+}
+void loop(){
+
+if (Serial.available() > 0){
+byteRecibido=Serial.read(); 
+if (byteRecibido=='A')          //dato recibido  "A"
+digitalWrite(led, HIGH);        //Encender LED
+else if (byteRecibido=='B')
+digitalWrite(led, LOW);         //Apagar LED
+}
+}
